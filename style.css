@@ -1,4 +1,4 @@
-/* Reset some default styles */
+/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -6,14 +6,14 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* Page layout */
+/* ===== GLOBAL ===== */
 body {
   background: #f5f5f5;
   color: #333;
   line-height: 1.6;
 }
 
-/* Header */
+/* ===== HEADER ===== */
 header {
   text-align: center;
   background: #007acc;
@@ -26,21 +26,50 @@ header h1 {
   margin-bottom: 10px;
 }
 
-/* Main container */
+/* ===== GRID LAYOUT (12 Columns) ===== */
 .container {
-  display: flex;
-  justify-content: space-between;
-  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
   gap: 20px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
 }
 
-/* Left column */
+/* ===== GRID OVERLAY GUIDE ===== */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(0, 122, 204, 0.08),
+    rgba(0, 122, 204, 0.08) calc((100% / 12) - 1px),
+    transparent calc((100% / 12))
+  );
+  z-index: 0;
+  border-radius: 8px;
+}
+
+/* Toggle overlay visibility */
+body.hide-grid .container::before {
+  display: none;
+}
+
+/* ===== LEFT COLUMN (4/12) ===== */
 .left {
-  flex: 1;
+  grid-column: span 4;
   background: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
 }
 
 .left img {
@@ -49,16 +78,37 @@ header h1 {
   margin-bottom: 15px;
 }
 
-/* Right column */
+.left h2 {
+  margin-top: 15px;
+  color: #007acc;
+}
+
+/* ===== RIGHT COLUMN (8/12) ===== */
 .right {
-  flex: 2;
+  grid-column: span 8;
   background: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
 }
 
-/* Footer */
+.right h2 {
+  color: #007acc;
+  margin-top: 10px;
+}
+
+.job {
+  margin-bottom: 15px;
+}
+
+.job h3 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* ===== FOOTER ===== */
 footer {
   text-align: center;
   background: #007acc;
@@ -67,9 +117,21 @@ footer {
   margin-top: 30px;
 }
 
-/* Responsive Design */
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .left {
+    grid-column: span 5;
+  }
+  .right {
+    grid-column: span 7;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+  }
+  .left, .right {
+    grid-column: span 12;
   }
 }
